@@ -1,0 +1,315 @@
+<?php 
+    include_once("Header.php");
+    include_once("main.php");
+    try{
+        if(!empty($_POST["BtnAjout"])&& !empty($_POST["InpNom"])&& !empty($_POST["inpCategorie"])&& !empty($_POST["inpType"])&& !empty($_POST["inpPrix"])&& !empty($_POST["inpDateEntrer"])&& !empty($_POST["inpDateExpiration"])&& !empty($_FILES["inpPhoto"]["name"])
+        ){
+        // Recuperation des valeurs des formulaires 
+        $num=$_POST['inpNum'];
+        $nom=$_POST['InpNom'];
+        $categorie=$_POST['inpCategorie'];
+        $type=$_POST['inpType'];
+        $prix=$_POST['inpPrix'];
+        $dateEntrer=$_POST['inpDateEntrer'];
+        $dateExpiration=$_POST['inpDateExpiration'];
+        $photo=$_FILES['inpPhoto']['name'];
+        // recuperation de la photo
+        $imgnomtemp = $_FILES['inpPhoto']['tmp_name'];
+        $destination="telechargement/".$photo;
+        if(move_uploaded_file($imgnomtemp,$destination)){
+            $data=[
+                ':num'=>$num,
+                ':nom'=>$nom,
+                ':categorie'=>$categorie,
+                ':types'=>$type,
+                ':prix'=>$prix,
+                ':datefab'=>$dateEntrer,
+                ':dateExpi'=>$dateExpiration,
+                ':photo'=>$destination
+            ];
+            $Requette="INSERT INTO TProduit Values(:num, :nom, :categorie, :types, :prix, :datefab, :dateExpi,:Photo)";
+            $pdostmt= $pdo->prepare($Requette);
+            $pdostmt->execute($data);
+            $pdostmt->closeCursor();
+        }
+    }
+}
+    catch(PDOException $e){
+        echo $e->getMessage()." " .$e->getFile(). " " .$e->getLine();
+    }
+    
+?>
+        <h1 class="mt-5"> Ajout des Produits</h1>
+
+    <form class="row g-3" method="POST" enctype="multipart/form-data">
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">N° Produit</label>
+    <input type="number" class="form-control" id="inpNum" name="inpNum" required>
+  </div>
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Nom produit</label>
+    <input type="text" class="form-control" id="InpNom" name="InpNom" required>
+  </div>
+  <div class="col-12">
+    <label for="inputAddress" class="form-label"> Categorie</label>
+    <input type="text" class="form-control" id="inpCategorie" placeholder="Categorie Produit" name="inpCategorie" required>
+  </div>
+  <div class="col-12">
+    <label for="inputAddress2" class="form-label">Type Produit</label>
+    <input type="text" class="form-control" id="inpType" name="inpType" required>
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">Prix Produit</label>
+    <input type="text" class="form-control" id="inpPrix" name="inpPrix" required>
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">Date Fabrication</label>
+    <input type="date" class="form-control" id="inpDateEntrer" name="inpDateEntrer" required>
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">Date Expiration</label>
+    <input type="date" class="form-control" id="inpDateExpiration" name="inpDateExpiration" required>
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">Photo produit</label>
+    <input type="file" class="form-control" id="inpPhoto" name="inpPhoto" required>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" name="BtnAjout">Ajouter Produit</button>
+  </div>
+</form>
+    </div>
+</main>
+<?php 
+    include_once("Footer.php");
+?>
+
+
+
+
+
+
+///§§§ Code de modification ancienne version avant modification
+
+
+<?php
+    include_once("Header.php");
+    include_once("main.php");
+  try{    
+            if(!empty($_GET["idProduit"])){
+              $requete = "SELECT * FROM TProduit where idProduit=:id";
+                $pdostmt = $pdo->prepare($requete);
+                $pdostmt->execute(["id"=>$_GET["idProduit"]]);
+                while($row=$pdostmt->fetch(PDO::FETCH_ASSOC)):
+                
+    // catch (PDOException $e) {
+     //   echo "<div class='alert alert-danger'>Erreur : " . $e->getMessage() . "</div>";
+    //}
+    ?>
+    
+        <h1><i class="bi bi-gift"> Modification Gateaux<i class="bi bi-pencil-fill"></i>  </h1>
+        <form class="row g-3" method="POST" action="" enctype="multipart/form-data">
+          <input type="hidden" name="myid" value="<?php echo $row["idProduit"]?>">
+          <div class="col-md-6">
+            <label class="form-label">N° Produit</label>
+            <input type="number" class="form-control" id="inpNum" name="inpNum" value="<?php echo $row["idProduit"]?>" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nom produit</label>
+            <input type="text" class="form-control" id="InpNom" name="InpNom" value="<?php echo $row["NomProd"]?>" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Catégorie</label>
+            <select class="form-control" id="inpCategorie" name="inpCategorie" required>
+              <option value=""> Sélectionnez la catégorie</option>
+              <!-- <option value="Disponible">Disponible</option> -->
+              <option value="Disponible" <?php if($row["CategorieProd"] == "Disponible") echo "selected"; ?>>Disponible</option>
+              <option value="Indisponible" <?php if($row["CategorieProd"] == "Indisponible") echo "selected"; ?>>Indisponible</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Type Produit</label>
+            <select class="form-control" id="inpType" name="inpType" required>
+              <option value="">Sélectionnez le Type</option>
+              <option value="Mariage" <?php if($row["TypeProd"] == "Mariage") echo "selected"; ?>>Mariage</option>
+              <option value="Anniversaire" <?php if($row["TypeProd"] == "Anniversaire") echo "selected"; ?>>Anniversaire</option>
+              <option value="Autre Ceremonie" <?php if($row["TypeProd"] == "Autre Ceremonie") echo "selected"; ?>>Autre Ceremonie</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Prix Produit</label>
+            <input type="number" step="0.01" class="form-control" id="inpPrix" name="inpPrix" value="<?php echo $row["PrixProd"]?>" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Date Fabrication</label>
+            <input type="date" class="form-control" id="inpDateEntrer" name="inpDateEntrer" value="<?php echo $row["DateEntreProd"]?>" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Date Expiration</label>
+            <input type="date" class="form-control" id="inpDateExpiration" name="inpDateExpiration" value="<?php echo $row["DateExpiration"]?>" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Photo produit</label>
+            <!-- Ce champs ne peut pas avoir de values pour les raisons des securité -->
+            <input type="file" class="form-control" id="inpPhoto" name="inpPhoto" required>
+          </div>
+          <div class="col-12">
+            <button type="submit" id="BtnModif" name="BtnModif" class="btn btn-primary">Modifier</button>
+          </div>
+        </form>
+    <!-- Fermeture de la connexion -->
+    <?php
+
+      endwhile;
+       $pdostmt->closeCursor();
+       //header("Location:Article.php");
+       // declaretion et reuperations des variables 
+        $num = htmlspecialchars($_POST['inpNum']);
+        $nom = htmlspecialchars($_POST['InpNom']);
+        $categorie = htmlspecialchars($_POST['inpCategorie']);
+        $type = htmlspecialchars($_POST['inpType']);
+        $prix = htmlspecialchars($_POST['inpPrix']);
+        $dateEntrer = $_POST['inpDateEntrer'];
+        $dateExpiration = $_POST['inpDateExpiration'];
+         $photoName = $_FILES['inpPhoto']['name'];
+         $photoTmp = $_FILES['inpPhoto']['tmp_name'];
+         $destination = "telechargement/".$photoName;
+
+        
+
+        // Bouton Modification
+       if(isset($_POST["BtnModif"])){
+        if (move_uploaded_file($photoTmp, $destination)){
+          $data = [
+              ':idProduit' => $num,
+              ':NomProd' => $nom,
+              ':CategorieProd' => $categorie,
+              ':TypeProd' => $type,
+              ':PrixProd' => $prix,
+              ':DateEntreProd' => $dateEntrer,
+              ':DateExpiration' => $dateExpiration,
+              ':PhotoProd' => $destination
+        ];
+        $requete = "UPDATE TProduit set NomProd=:NomProd, CategorieProd=:CategorieProd,TypeProd=:TypeProd,PrixProd=:PrixProd,DateEntreProd=:DateEntreProd,DateExpiration=:DateExpiration,PhotoProd=:PhotoProd where idProduit=:idProduit";
+        $pdostmt = $pdo->prepare($requete);
+        $pdostmt->execute($data);
+        // $pdostmt->execute([
+        //     "idProduit"=>$_POST['inpNum'],"NomProd"=>$_POST['InpNom'],"CategorieProd"=>$_POST['inpCategorie'], "TypeProd"=>$_POST['inpType'],"PrixProd"=>$_POST['inpPrix'],
+        //      "DateEntreProd"=>$_POST['inpDateEntrer'],"DateExpiration"=>$_POST['inpDateExpiration'],"PhotoProd"=>$destination, "IdProduit"=>$_POST['imyid']
+        //    ]);
+       }
+      }
+    }
+  }
+    catch(PDOException $e){
+      echo "<div class='alert alert-danger'>Erreur : " . $e->getMessage() . "</div>";
+    }
+    ?>
+    <?php
+        include_once("Footer.php");
+    ?>
+    <div class="container-md">
+      <div class="text-center">
+        <h2> Nos realisation ...</h2>
+        <p class="lead text-muted"> Nos réalisation sont au top niveau et respecte les normes de la cuisine moderne</p>
+      </div>
+      <!-- code pour selectionner la photo de la bdd puis l'afficher dans le caroussel  -->
+        <?php
+        $Requette = "SELECT PhotoProd FROM tproduit Where idProduit = 3";
+        $pdostmt = $pdo->prepare($Requette);
+        $pdostmt->execute();
+        ?>
+
+        <!-- Boucle While pour l'errangement -->
+        <?php
+        while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
+          $count++;
+        ?>
+      <div class="row my-5 g-5 justify-content-around align-items-center">
+        <!--  Carousel Avec contenue provenant de la bdd -->
+          <div id="carouselExampleCaptions"
+            class="carousel slide"
+            data-bs-ride="carousel"
+            data-bs-interval="3000"
+            style="width: 50%; float: left;">
+
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="telechargement/cakePhine.JPG" class="d-block w-100" alt="...">
+                <!-- <img src="<?php //echo $ligne["PhotoProd"] ?>" class="d-block w-100" alt="Gâteau 1"> -->
+                <!-- <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" class="d-block w-100" alt="Gâteau 1"> -->
+                <div class="carousel-caption d-none d-md-block">
+                  <h5><i class="bi bi-cake2-fill"></i>Cake Art Gateaux d'Anniversaire</h5>
+                  <p>Les gateuax des anniversaire qui ont de la bonne crème.</p>
+                </div>
+              </div>
+              <?php endwhile; ?>
+
+              <!-- code pour selectionner la photo de la bdd puis l'afficher dans le caroussel  -->
+              <?php
+              //$Requettes = "SELECT PhotoProd FROM tproduit Where idProduit = 2";
+              //$pdostmt = $pdo->prepare($Requettes);
+              //$pdostmt->execute();
+              ?>
+
+              <!-- Boucle While pour l'errangement -->
+              <?php
+              //while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
+                //$count++;
+              ?>
+              <div class="carousel-item">
+                <!-- <img src="<?php //echo $ligne["PhotoProd"] ?>" class="d-block w-100" alt="..."> -->
+                <img src="telechargement/cakeAvecBougie.JPG" class="d-block w-100" alt="Gâteau 3"> -->
+                <img src="https://images.unsplash.com/photo-1599785209707-28f69e98a47b" class="d-block w-100" alt="Gâteau 3"> -->
+                <div class="carousel-caption d-none d-md-block">
+                <h5><i class="bi bi-cake2-fill"></i>Cake Art Gateaux de Mariage</h5>
+                <p>collorez vos fetes avec les bons gateaux de mariages .</p>
+                </div>
+              </div>
+              <?php //endwhile; ?>
+              <!-- code pour selectionner la photo de la bdd puis l'afficher dans le caroussel  -->
+                <?php
+              //$Requette = "SELECT PhotoProd FROM tproduit Where idProduit = 3";
+              //$pdostmt = $pdo->prepare($Requette);
+              //$pdostmt->execute();
+              ?>
+
+              <!-- Boucle While pour l'errangement -->
+              <?php
+              //while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
+                //$count++;
+              ?> 
+                <div class="carousel-item">
+                  <!-- <img src="<?php // echo $ligne["PhotoProd"] ?>" class="d-block w-100" alt="..."> -->
+                  <img src="https://images.unsplash.com/photo-1621996346565-c980dcf199e1" class="d-block w-100" alt="Gâteau 3">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5><i class="bi bi-cake2-fill"></i>Cake Art Gateaux d'autres ceremonies</h5>
+                    <p>Pour autres ceremonies ayant au moins un bon gateau avec la bonne saveur.</p>
+                  </div>
+                </div>
+            </div>
+            <?php //endwhile; ?>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+<!-- Lors de la chaine de connexion qui utilise le mot de pass hacher -->
+if (password_verify($MotDePasseEntrerParLUtilisateur, $MotDePasseStockeDansLaBDD)) {
+    // Mot de passe correct
+} else {
+    // Mot de passe incorrect
+}
+
