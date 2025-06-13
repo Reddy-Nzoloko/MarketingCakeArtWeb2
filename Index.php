@@ -64,7 +64,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
           <a href="#" class=" btn btn-secondary btn-lg">commande</a>
           <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
             cake art </a>
-            <a href="Login.php">Essaie</a>
+          <a href="Login.php">Essaie</a>
         </div>
         <div class="col-md-5 text-center">
           <span class="tt" data-bs-placement="bottom" title="Gateau d'anniversaire">
@@ -398,7 +398,6 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
           <th>Commentaire</th>
           <th>Evaluation</th>
           <th>Date Commentaire</th>
-          <th>...</th>
         </tr>
       </thead>
       <tbody>
@@ -421,30 +420,6 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
             <td><?php echo $ligne["Commentaire"] ?></td>
             <td><?php echo $ligne["Evaluation"] ?></td>
             <td><?php echo $ligne["DateCommentaire"] ?></td>
-            <td>
-              <a href="#?idClient=<?php echo $ligne["idClient"] ?>" class="btn btn-success"> <i class="bi bi-pencil-fill"></i> </a>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal<?php echo $count ?>"> <i class="bi bi-trash3"></i> </button>
-            </td>
-            <!-- Modal pour confirmer la suppresion d'un client -->
-            <!-- Modal -->
-            <div class="modal fade" id="DeleteModal<?php echo $count ?>" tabindex="-1" aria-labelledby="DeleteModal" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-trash2">Suppression</i></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    Voulez vous vraiment supprimer ce client?? <i class="bi bi-trash4"></i>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <!-- Action qui fonctionne comme evenement au gliss de la souris = -->
-                    <a href="#?idClient=<?php echo $ligne["idClient"] ?>" class="btn btn-danger">Confirmer</a>
-                  </div>
-                </div>
-              </div>
-            </div>
           </tr>
         <?php endwhile; ?>
       </tbody>
@@ -631,8 +606,128 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
               </div>
             </div>
   </section>
-  <!-- Formulaire d'escription client ou de connexion client -->
-  <!-- Formulaire d'essaie -->
+  <!-- Affichage des tous les produits de la bdd -->
+
+  <div class="container">
+    <h1><i class="bi bi-gift"> Faites des Surprises à vos proches avec <i class="bi bi-cake2-fill">Cake Art</i></i> </h1>
+    <p class="lead">Avec un bon prix <i class="bi bi-tag"></i> Chez <i class="bi bi-cake2-fill">Cake Art</i>, chaque gâteau est une œuvre d’art sucrée<i class="bi bi-emoji-smile"></i>.
+      Préparés avec des ingrédients frais et de qualité,
+      produits allient goût raffiné et présentation élégante.
+      Le moelleux<i class="bi bi-cupcake"></i>, la saveur et l'équilibre <i class="bi bi-emoji-smile"></i>parfait du sucre font toute la différence.
+      Une seule bouchée suffit pour vous faire revenir ! 🍰💫 </p>
+    <a class="btn btn-lg btn-primary" href="#" role="button"><i class="bi bi-cake2-fill">Cake Art</i></a>
+
+    <!-- Selection dans la base de donnée -->
+    <?php
+    $Requette = "SELECT * FROM tproduit where idProduit >= 5";
+    $pdostmt = $pdo->prepare($Requette);
+    $pdostmt->execute();
+    //var_dump($pdostmt->fetchAll(PDO::FETCH_ASSOC));
+    ?>
+    <!-- Integrer la data tables pour l'affichage des données -->
+    <table id="datatables" class="display">
+      <thead>
+        <tr>
+          <th>N° Produit</th>
+          <th>Nom</th>
+          <th>Categorie</th>
+          <th>Type</th>
+          <th>Prix</th>
+          <th>Date</th>
+          <th>Date Expiration</th>
+          <th>Image</th>
+          <!-- <th>Action</th> -->
+        </tr>
+      </thead>
+      <tbody>
+
+        <?php while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
+          $count++;
+        ?>
+          <tr>
+            <td><?php echo $ligne["idProduit"] ?></td>
+            <td><?php echo $ligne["NomProd"] ?></td>
+            <td><?php echo $ligne["CategorieProd"] ?></td>
+            <td><?php echo $ligne["TypeProd"] ?></td>
+            <td><?php echo $ligne["PrixProd"] ?></td>
+            <td><?php echo $ligne["DateEntreProd"] ?></td>
+            <td><?php echo $ligne["DateExpiration"] ?></td>
+            <td><?php echo "<img width='100' src='" . $ligne["PhotoProd"] . "'>"; ?></td>
+
+          <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>
+  </main>
+  <?php
+  $pdo = new connect()
+  ?>
+  </div>
+
+  <!-- Formulaire d'escription client client -->
+  <?php
+  try {
+
+    if (isset($_POST['BtnModif'])) {
+      // Récupération des données
+      $num = htmlspecialchars($_POST['Num']);
+      $nom = htmlspecialchars($_POST['Nom']);
+      $NumeroPhone = htmlspecialchars($_POST['NumPhone']);
+      $AdresseMail = htmlspecialchars($_POST['Email']);
+      //$MotPass = htmlspecialchars($_POST['Pass']);
+      $data = [
+        ':idClient' => $num,
+        ':NomClient' => $nom,
+        ':NumPhone' =>  $NumeroPhone,
+        ':MailC' => $AdresseMail,
+        //':PassC' => $MotPass,
+      ];
+
+      $requete = "INSERT into TClient
+                (idClient, NomClient, PhoneClient, MailClient) 
+                values 
+                (:idClient, :NomClient, :NumPhone, :MailC)";
+
+      $pdostmt = $pdo->prepare($requete);
+      $pdostmt->execute($data);
+      $pdostmt->closeCursor();
+      echo "<div class='alert alert-success text-center'>Client ajouté avec succès !</div>";
+    }
+  } catch (PDOException $e) {
+    echo "<div class='alert alert-danger'>Erreur : " . $e->getMessage() . "</div>";
+  }
+  ?>
+
+
+
+
+  <!-- Formulaire d'ajout du client -->
+  <div class="container" id="FormAjout">
+    <h3 class="text-center mb-4">Inscription client</h3>
+    <form method="POST">
+      <div class="mb-3">
+        <label for="name" class="form-label">N° Client</label>
+        <input type="text" class="form-control" id="Num" name="Num" placeholder="Votre N°" required>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Nom complet</label>
+        <input type="text" class="form-control" id="Nom" name="Nom" placeholder="Votre nom" required>
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Téléphone</label>
+        <input type="tel" class="form-control" id="NumPhone" name="NumPhone" placeholder="Numéro de téléphone" required>
+      </div>
+      <div class="mb-3">
+        <label for="registerEmail" class="form-label">Adresse e-mail</label>
+        <input type="email" class="form-control" id="registerEmail" name="Email" placeholder="Entrez votre e-mail" required>
+      </div>
+      <div class="d-grid mb-2">
+        <button type="submit" name="BtnModif" class="btn btn-primary ">Créer le compte</button>
+      </div>
+
+    </form>
+  </div>
+  <!-- Formulaire de commande -->
   <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px;">
 

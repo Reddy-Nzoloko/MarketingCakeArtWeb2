@@ -4,11 +4,6 @@ include_once("Header.php");
 include_once("main.php");
 $count = 0;
 ?>
-
-<!-- CREATE TABLE  IF NOT EXISTS TAdministrateur(idAdmi INT primary key,
- NomAdmi VARCHAR(100)NOT NULL, MailAdmi varchar(200) not null, 
-PhoneAdmi varchar(200) not null, Motdepass varchar(500)not null); -->
- <!-- Affichages des commentaire -->
   <div class="container">
     <h2 class="h2 text-primary text-center">Listes des agents</h2>
     <table id="datatable" class="display">
@@ -44,7 +39,7 @@ PhoneAdmi varchar(200) not null, Motdepass varchar(500)not null); -->
             <td><?php echo $ligne["PhoneAdmi"] ?></td>
             <td><?php echo $ligne["Motdepass"] ?></td>
             <td>
-              <a href="#?idClient=<?php echo $ligne["idClient"] ?>" class="btn btn-success"> <i class="bi bi-pencil-fill"></i> </a>
+              <a href="ModifAgent.php?idAdmi= <?php echo $ligne["idAdmi"] ?>" class="btn btn-success"> <i class="bi bi-pencil-fill"></i> </a>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal<?php echo $count ?>"> <i class="bi bi-trash3"></i> </button>
             </td>
             <!-- Modal pour confirmer la suppresion d'un client -->
@@ -57,12 +52,12 @@ PhoneAdmi varchar(200) not null, Motdepass varchar(500)not null); -->
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    Voulez vous vraiment supprimer ce client?? <i class="bi bi-trash4"></i>
+                    Voulez vous vraiment supprimer cet agent?? <i class="bi bi-trash4"></i>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <!-- Action qui fonctionne comme evenement au gliss de la souris = -->
-                    <a href="#?idClient=<?php echo $ligne["idClient"] ?>" class="btn btn-danger">Confirmer</a>
+                    <a href="DeleteAgent.php?idAdmi=<?php echo $ligne["idAdmi"] ?>" class="btn btn-danger">Confirmer</a>
                   </div>
                 </div>
               </div>

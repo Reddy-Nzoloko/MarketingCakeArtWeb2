@@ -7,7 +7,7 @@
 
 
     <h1><i class="bi bi-gift"> Faites des Surprises à vos proches avec <i class="bi bi-cake2-fill">Cake Art</i></i>  </h1>
-    <a href="AjoutProduit.php" class="btn btn-primary"> <i class="bi bi-folder-plus"></i> </a>
+    <a href="LoginAjoutProduit.php" class="btn btn-primary"> <i class="bi bi-folder-plus"></i> </a>
     <p class="lead">Avec un bon prix <i class="bi bi-tag"></i> Chez <i class="bi bi-cake2-fill">Cake Art</i>, chaque gâteau est une œuvre d’art sucrée<i class="bi bi-emoji-smile"></i>.
     Préparés avec des ingrédients frais et de qualité,
     produits allient goût raffiné et présentation élégante.
@@ -23,7 +23,7 @@
         //var_dump($pdostmt->fetchAll(PDO::FETCH_ASSOC));
     ?>
         <!-- Integrer la data tables pour l'affichage des données -->
-        <table id="datatable" class="display">
+        <table id="datatables" class="display">
     <thead>
         <tr>
             <th>N° Produit</th>
@@ -34,7 +34,7 @@
             <th>Date</th>
             <th>Date Expiration</th>
             <th>Image</th>
-            <th>Action</th>
+            <!-- <th>Action</th> -->
         </tr>
     </thead>
     <tbody>
@@ -51,10 +51,10 @@
             <td><?php echo $ligne["DateEntreProd"]?></td>
             <td><?php echo $ligne["DateExpiration"]?></td>
             <td><?php echo "<img width='100' src='".$ligne["PhotoProd"]."'>";?></td>
-            <td>
-                 <a href="modifProd.php?idProduit=<?php echo $ligne["idProduit"]?>" class="btn btn-success"> <i class="bi bi-pencil-fill"></i> </a>
+            <!-- <td>
+                 <a href="LoginModifArticle.php?idProduit=<?php echo $ligne['idProduit']; ?>" class="btn btn-success"> <i class="bi bi-pencil-fill"></i> </a>
                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal<?php echo $count?>"> <i class="bi bi-trash3"></i> </button>
-            </td>
+            </td> -->
         </tr>
         <!-- Modal pour confirmer la suppresion d'un client -->
             <!-- Modal --> 
@@ -71,7 +71,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <!-- Action qui fonctionne comme evenement au gliss de la souris = -->
-                    <a href="deleteProd.php?idProduit=<?php echo $ligne["idProduit"]?>" class="btn btn-danger" >Confirmer</a>
+                    <a href="LoginSuppressionArticle.php?idProduit=<?php echo $ligne['idProduit']; ?>" class="btn btn-danger" >Confirmer</a>
                 </div>
                 </div>
             </div>
@@ -84,7 +84,3 @@
 <?php 
     $pdo = new connect()
 ?>
-<?php
-include_once("Footer.php");
-?>
-<script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

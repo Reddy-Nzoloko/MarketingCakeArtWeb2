@@ -6,8 +6,8 @@ $count = 0;
 ?>
 <div class="container bg">
     <h1 class="h3"> Admin</h1>
-    <a class="h2" href="AjoutAgent.php"><i class="bi bi-person-plus"></i></a>
-    <a class="h2" href="AfficherAgent.php"><i class="bi bi-eye"></i>
+    <a class="h2" href="#"><i class="bi bi-person-plus"></i></a>
+    <a class="h2" href="#"><i class="bi bi-eye"></i>
 </a>
 </div>
 
