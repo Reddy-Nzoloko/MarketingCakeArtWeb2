@@ -61,14 +61,15 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
             <div class="display-5 text-muted"> La saveur des vos fêtes avec des bons gateaux </div>
           </h1>
           <p class="lead my-4 text-muted"> la decoration de vos ceremonie avec des gateaux de Cake Art <i class="bi bi-cake2-fill"></i></p>
-          <a href="#" class=" btn btn-secondary btn-lg">commande</a>
-          <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
-            cake art </a>
-          <a href="Login.php">Essaie</a>
+          <a href="Commande.php" class=" btn btn-secondary btn-lg">commande</a>
+          <!-- <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
+            cake art </a> -->
         </div>
         <div class="col-md-5 text-center">
           <span class="tt" data-bs-placement="bottom" title="Gateau d'anniversaire">
-            <img class="img-fluid mt-2" src="<?php echo $ligne["PhotoProd"] ?>" alt="Gateaux d'acceuil provenant de la base de donner">
+            <img class="img-fluid mt-2" shadow-sm hover-shadow" style="transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"
+              src="<?php echo $ligne["PhotoProd"] ?>" alt="Gateaux d'acceuil provenant de la base de donner">
+            <!-- <img class="img-fluid mt-2" src="<?php echo $ligne["PhotoProd"] ?>" alt="Gateaux d'acceuil provenant de la base de donner"> -->
           </span>
         </div>
       </div>
@@ -388,42 +389,42 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
 
   </div>
   </section>
-  <!-- Affichages des commentaire -->
+  Affichages des commentaire
   <div class="container">
     <h2 class="h2 text-primary text-center">Suivi des commentaire </h2>
-    <table id="datatable" class="display">
-      <thead>
-        <tr>
-          <th>N° Commentaire</th>
-          <th>Commentaire</th>
-          <th>Evaluation</th>
-          <th>Date Commentaire</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- selection des commentaire de la bdd -->
-
-        <!-- Selection dans la base de donnée -->
-        <?php
-        $Requette = "SELECT * FROM TCommentaire";
-        $pdostmt = $pdo->prepare($Requette);
-        $pdostmt->execute();
-        //var_dump($pdostmt->fetchAll(PDO::FETCH_ASSOC));
-
-
-        ?>
-        <?php while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
-          $count++;
-        ?>
+    <div class="table-responsive">
+      <table id="datatable" class="table table-bordered display nowrap">
+        <thead>
           <tr>
-            <td><?php echo $ligne["idCommentaire"] ?></td>
-            <td><?php echo $ligne["Commentaire"] ?></td>
-            <td><?php echo $ligne["Evaluation"] ?></td>
-            <td><?php echo $ligne["DateCommentaire"] ?></td>
+            <th>N° Commentaire</th>
+            <th>Commentaire</th>
+            <th>Evaluation</th>
+            <th>Date Commentaire</th>
           </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <!-- selection des commentaire de la bdd -->
+
+          <!-- Selection dans la base de donnée -->
+          <?php
+          $Requette = "SELECT * FROM TCommentaire";
+          $pdostmt = $pdo->prepare($Requette);
+          $pdostmt->execute();
+
+          ?>
+          <?php while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
+            $count++;
+          ?>
+            <tr>
+              <td><?php echo $ligne["idCommentaire"] ?></td>
+              <td><?php echo $ligne["Commentaire"] ?></td>
+              <td><?php echo $ligne["Evaluation"] ?></td>
+              <td><?php echo $ligne["DateCommentaire"] ?></td>
+            </tr>
+          <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 
@@ -488,7 +489,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
               <div class="carousel-item">
                 <img src="<?php echo $ligne["PhotoProd"] ?>" class="d-block w-100" alt="Gateaux 2 Bdd">
                 <!-- <img src="telechargement/cakeAvecBougie.JPG" class="d-block w-100" alt="Gâteau 3"> -->
-                <!-- <img src="https://images.unsplash.com/photo-1599785209707-28f69e98a47b" class="d-block w-100" alt="Gâteau 3"> --> -->
+                <!-- <img src="https://images.unsplash.com/photo-1599785209707-28f69e98a47b" class="d-block w-100" alt="Gâteau 3"> -->
                 <div class="carousel-caption d-none d-md-block">
                   <h5><i class="bi bi-cake2-fill"></i>Cake Art Gateaux de Mariage</h5>
                   <p>collorez vos fetes avec les bons gateaux de mariages .</p>
@@ -625,40 +626,41 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
     //var_dump($pdostmt->fetchAll(PDO::FETCH_ASSOC));
     ?>
     <!-- Integrer la data tables pour l'affichage des données -->
-    <table id="datatables" class="display">
-      <thead>
-        <tr>
-          <th>N° Produit</th>
-          <th>Nom</th>
-          <th>Categorie</th>
-          <th>Type</th>
-          <th>Prix</th>
-          <th>Date</th>
-          <th>Date Expiration</th>
-          <th>Image</th>
-          <!-- <th>Action</th> -->
-        </tr>
-      </thead>
-      <tbody>
-
-        <?php while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
-          $count++;
-        ?>
+    <div class="table-responsive">
+      <table id="datatables" class="table table-bordered display nowrap">
+        <thead>
           <tr>
-            <td><?php echo $ligne["idProduit"] ?></td>
-            <td><?php echo $ligne["NomProd"] ?></td>
-            <td><?php echo $ligne["CategorieProd"] ?></td>
-            <td><?php echo $ligne["TypeProd"] ?></td>
-            <td><?php echo $ligne["PrixProd"] ?></td>
-            <td><?php echo $ligne["DateEntreProd"] ?></td>
-            <td><?php echo $ligne["DateExpiration"] ?></td>
-            <td><?php echo "<img width='100' src='" . $ligne["PhotoProd"] . "'>"; ?></td>
+            <th>N° Produit</th>
+            <th>Nom</th>
+            <th>Categorie</th>
+            <th>Type</th>
+            <th>Prix</th>
+            <th>Date</th>
+            <th>Date Expiration</th>
+            <th>Image</th>
+            <!-- <th>Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
 
-          <?php endwhile; ?>
-      </tbody>
-    </table>
+          <?php while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
+            $count++;
+          ?>
+            <tr>
+              <td><?php echo $ligne["idProduit"] ?></td>
+              <td><?php echo $ligne["NomProd"] ?></td>
+              <td><?php echo $ligne["CategorieProd"] ?></td>
+              <td><?php echo $ligne["TypeProd"] ?></td>
+              <td><?php echo $ligne["PrixProd"] ?></td>
+              <td><?php echo $ligne["DateEntreProd"] ?></td>
+              <td><?php echo $ligne["DateExpiration"] ?></td>
+              <td><?php echo "<img width='100' src='" . $ligne["PhotoProd"] . "'>"; ?></td>
+
+            <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
-  </main>
   <?php
   $pdo = new connect()
   ?>
@@ -702,88 +704,92 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
 
 
   <!-- Formulaire d'ajout du client -->
-  <div class="container" id="FormAjout">
-    <h3 class="text-center mb-4">Inscription client</h3>
-    <form method="POST">
-      <div class="mb-3">
-        <label for="name" class="form-label">N° Client</label>
-        <input type="text" class="form-control" id="Num" name="Num" placeholder="Votre N°" required>
-      </div>
-      <div class="mb-3">
-        <label for="name" class="form-label">Nom complet</label>
-        <input type="text" class="form-control" id="Nom" name="Nom" placeholder="Votre nom" required>
-      </div>
-      <div class="mb-3">
-        <label for="phone" class="form-label">Téléphone</label>
-        <input type="tel" class="form-control" id="NumPhone" name="NumPhone" placeholder="Numéro de téléphone" required>
-      </div>
-      <div class="mb-3">
-        <label for="registerEmail" class="form-label">Adresse e-mail</label>
-        <input type="email" class="form-control" id="registerEmail" name="Email" placeholder="Entrez votre e-mail" required>
-      </div>
-      <div class="d-grid mb-2">
-        <button type="submit" name="BtnModif" class="btn btn-primary ">Créer le compte</button>
-      </div>
+  <section id="InscriptionClient">
+    <div class="container" id="FormAjout">
+      <h3 class="text-center mb-4">Inscription client</h3>
+      <form method="POST">
+        <div class="mb-3">
+          <label for="name" class="form-label">N° Client</label>
+          <input type="text" class="form-control" id="Num" name="Num" placeholder="Votre N°" required>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Nom complet</label>
+          <input type="text" class="form-control" id="Nom" name="Nom" placeholder="Votre nom" required>
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Téléphone</label>
+          <input type="tel" class="form-control" id="NumPhone" name="NumPhone" placeholder="Numéro de téléphone" required>
+        </div>
+        <div class="mb-3">
+          <label for="registerEmail" class="form-label">Adresse e-mail</label>
+          <input type="email" class="form-control" id="registerEmail" name="Email" placeholder="Entrez votre e-mail" required>
+        </div>
+        <div class="d-grid mb-2">
+          <button type="submit" name="BtnModif" class="btn btn-primary ">Créer le compte</button>
+        </div>
 
-    </form>
-  </div>
-  <!-- Formulaire de commande -->
-  <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px;">
-
-      <!-- Formulaire de connexion -->
-      <div id="loginForm">
-        <h3 class="text-center mb-4">Connexion</h3>
-        <form>
-          <div class="mb-3">
-            <label for="loginEmail" class="form-label">Adresse e-mail</label>
-            <input type="email" class="form-control" id="loginEmail" placeholder="Entrez votre e-mail" required>
-          </div>
-          <div class="mb-3">
-            <label for="loginPassword" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="loginPassword" placeholder="Mot de passe" required>
-          </div>
-          <div class="d-grid mb-2">
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-          </div>
-          <div class="d-grid">
-            <a class="btn btn-outline-primary" href="AjoutClient.php">Je n'ai pas de compte</a>
-            <!-- <button  type="button" class="btn btn-outline-primary" onclick="toggleForms()">Je n'ai pas de compte</button> -->
-          </div>
-        </form>
-      </div>
-
-      <!-- Formulaire d'inscription -->
-      <div id="registerForm" style="display: none;">
-        <h3 class="text-center mb-4">Créer un compte</h3>
-        <form>
-          <div class="mb-3">
-            <label for="name" class="form-label">Nom complet</label>
-            <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
-          </div>
-          <div class="mb-3">
-            <label for="phone" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control" id="phone" placeholder="Numéro de téléphone" required>
-          </div>
-          <div class="mb-3">
-            <label for="registerEmail" class="form-label">Adresse e-mail</label>
-            <input type="email" class="form-control" id="registerEmail" placeholder="Entrez votre e-mail" required>
-          </div>
-          <div class="mb-3">
-            <label for="registerPassword" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="registerPassword" placeholder="Mot de passe" required>
-          </div>
-          <div class="d-grid mb-2">
-            <button type="submit" class="btn btn-success">Créer le compte</button>
-          </div>
-          <div class="d-grid">
-            <button type="button" class="btn btn-outline-secondary" onclick="toggleForms()">J'ai déjà un compte</button>
-          </div>
-        </form>
-      </div>
-
+      </form>
     </div>
-  </div>
+  </section>
+  <!-- Formulaire de commande -->
+  <section id="Commande">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+      <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px;">
+
+        <!-- Formulaire de connexion -->
+        <div id="loginForm">
+          <h3 class="text-center mb-4">Connexion</h3>
+          <form>
+            <div class="mb-3">
+              <label for="loginEmail" class="form-label">Adresse e-mail</label>
+              <input type="email" class="form-control" id="loginEmail" placeholder="Entrez votre e-mail" required>
+            </div>
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" id="loginPassword" placeholder="Mot de passe" required>
+            </div>
+            <div class="d-grid mb-2">
+              <button type="submit" class="btn btn-primary">Se connecter</button>
+            </div>
+            <div class="d-grid">
+              <a class="btn btn-outline-primary" href="#">Je n'ai pas de compte</a>
+              <!-- <button  type="button" class="btn btn-outline-primary" onclick="toggleForms()">Je n'ai pas de compte</button> -->
+            </div>
+          </form>
+        </div>
+
+        <!-- Formulaire d'inscription -->
+        <div id="registerForm" style="display: none;">
+          <h3 class="text-center mb-4">Créer un compte</h3>
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom complet</label>
+              <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Téléphone</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Numéro de téléphone" required>
+            </div>
+            <div class="mb-3">
+              <label for="registerEmail" class="form-label">Adresse e-mail</label>
+              <input type="email" class="form-control" id="registerEmail" placeholder="Entrez votre e-mail" required>
+            </div>
+            <div class="mb-3">
+              <label for="registerPassword" class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" id="registerPassword" placeholder="Mot de passe" required>
+            </div>
+            <div class="d-grid mb-2">
+              <button type="submit" class="btn btn-success">Créer le compte</button>
+            </div>
+            <div class="d-grid">
+              <button type="button" class="btn btn-outline-secondary" onclick="toggleForms()">J'ai déjà un compte</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
 
   <!-- Section de la localisation  -->

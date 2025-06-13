@@ -75,21 +75,69 @@
         <span class="text-muted">CopyRight 2025 By Reddy</span>
     </div>
     <!-- Initialisation de la data tables -->
+    <!-- data tables -->
     <script>
+        $(document).ready(function() {
+            $('#datatable, #datatables, #datatableCom').DataTable({
+                responsive: true,
+                language: {
+                    lengthMenu: "Afficher _MENU_ enregistrements",
+                    search: "Rechercher :",
+                    info: "Affichage de _START_ à _END_ sur _TOTAL_ enregistrements",
+                    paginate: {
+                        next: "Suivant",
+                        previous: "Précédent"
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- Responsivité des datas tables -->
+    <!-- jQuery et DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <!-- Responsive extension -->
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
+
+    <!-- <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable({
+                responsive: true
+            });
+            $('#datatables').DataTable({
+                responsive: true
+            });
+            $('#datatableCom').DataTable({
+                responsive: true
+            });
+        });
+    </script> -->
+    <!-- <script>
         $(document).ready(function() {
             $('#datatable').DataTable();
+            responsive: true
         });
-    </script>
+    </script> -->
     <!-- DataTables Deux dans l'espace admi --> <!-- Initialisation de la data tables -->
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('#datatables').DataTable();
+            responsive: true
         });
-    </script>
+    </script> -->
+    <!-- Datatables pour le commande -->
+    <!-- <script>
+        $(document).ready(function() {
+            $('#datatableCom').DataTable();
+            responsive: true
+        });
+    </script> -->
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <!-- Traduction de ma dataTable -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function() {
             $("#DataTable").dataTable({
                 "olanguage": {
@@ -101,7 +149,8 @@
                 }
             })
         });
-    </script>
+    </script> -->
+
     <script>
         const Tooltips = document.querySelectorAll('.tt')
         tooltips.forEach(t => {
