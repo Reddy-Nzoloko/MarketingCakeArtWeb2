@@ -672,13 +672,13 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
 
     if (isset($_POST['BtnModif'])) {
       // Récupération des données
-      $num = htmlspecialchars($_POST['Num']);
+      //$num = htmlspecialchars($_POST['Num']);
       $nom = htmlspecialchars($_POST['Nom']);
       $NumeroPhone = htmlspecialchars($_POST['NumPhone']);
       $AdresseMail = htmlspecialchars($_POST['Email']);
       //$MotPass = htmlspecialchars($_POST['Pass']);
       $data = [
-        ':idClient' => $num,
+        //':idClient' => $num,
         ':NomClient' => $nom,
         ':NumPhone' =>  $NumeroPhone,
         ':MailC' => $AdresseMail,
@@ -686,9 +686,9 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
       ];
 
       $requete = "INSERT into TClient
-                (idClient, NomClient, PhoneClient, MailClient) 
+                (NomClient, PhoneClient, MailClient) 
                 values 
-                (:idClient, :NomClient, :NumPhone, :MailC)";
+                (:NomClient, :NumPhone, :MailC)";
 
       $pdostmt = $pdo->prepare($requete);
       $pdostmt->execute($data);
@@ -708,10 +708,6 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
     <div class="container" id="FormAjout">
       <h3 class="text-center mb-4">Inscription client</h3>
       <form method="POST">
-        <div class="mb-3">
-          <label for="name" class="form-label">N° Client</label>
-          <input type="text" class="form-control" id="Num" name="Num" placeholder="Votre N°" required>
-        </div>
         <div class="mb-3">
           <label for="name" class="form-label">Nom complet</label>
           <input type="text" class="form-control" id="Nom" name="Nom" placeholder="Votre nom" required>
@@ -793,27 +789,39 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
 
 
   <!-- Section de la localisation  -->
-  <section id="localisation">
-    <div class="container-fluid">
-      <div class="text-center justify-content-center">
-        <h5>Nos adresses <i class="bi bi-geo"></i> </h5>
-      </div>
-      <div class="row">
-        <div class="col justify-content-center text-center">
-          <p class="lead text-muted"> <i class="bi bi-geo"></i> Retrouver nous principalement à Lukanga campus wallace</p>
-          <div class="col col-12 justify-content-center text-center">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d127674.17150931299!2d29.218450474764985!3d0.027533371525268812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scampus%20universite%20adventiste%20de%20lukanga!5e0!3m2!1sfr!2scd!4v1735760504310!5m2!1sfr!2scd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
+  <section id="localisation" class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h5>Nos adresses <i class="bi bi-geo"></i></h5>
+    </div>
+    <div class="row g-4">
+      <!-- Première adresse -->
+      <div class="col-12 col-md-6 text-center">
+        <p class="lead text-muted">
+          <i class="bi bi-geo"></i> Retrouvez-nous principalement à Lukanga campus Wallace
+        </p>
+        <div class="ratio ratio-4x3">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d127674.17150931299!2d29.218450474764985!3d0.027533371525268812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scampus%20universite%20adventiste%20de%20lukanga!5e0!3m2!1sfr!2scd!4v1735760504310!5m2!1sfr!2scd"
+            style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
-      <div class="col justify-content-center text-center">
-        <p class="lead text-muted"> <i class="bi bi-geo"></i> Retrouver cake art en Beni ville quartier Ntoni</p>
-        <div class="col col-12 justify-content-center text-center">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127669.55484919368!2d29.37915347493337!3d0.488026745312009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1761ab017951ba17%3A0xa45247d1f6b2a53c!2sBeni!5e0!3m2!1sfr!2scd!4v1735760260818!5m2!1sfr!2scd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+      <!-- Deuxième adresse -->
+      <div class="col-12 col-md-6 text-center">
+        <p class="lead text-muted">
+          <i class="bi bi-geo"></i> Retrouvez Cake Art en Beni ville, quartier Ntoni
+        </p>
+        <div class="ratio ratio-4x3">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127669.55484919368!2d29.37915347493337!3d0.488026745312009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1761ab017951ba17%3A0xa45247d1f6b2a53c!2sBeni!5e0!3m2!1sfr!2scd!4v1735760260818!5m2!1sfr!2scd"
+            style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
   <!-- Insertion du footer -->
   <?php
   include_once("Footer.php");

@@ -4,9 +4,11 @@ include_once("Header.php");
 include_once("main.php");
 $count = 0;
 ?>
-  <div class="container">
-    <h2 class="h2 text-primary text-center">Listes des agents</h2>
-    <table id="datatable" class="display">
+<div class="container">
+  <h2 class="h2 text-primary text-center">Listes des agents</h2>
+
+  <div class="table-responsive">
+    <table id="datatables" class="table table-bordered display nowrap">
       <thead>
         <tr>
           <th>N° Agent</th>
@@ -69,5 +71,5 @@ $count = 0;
   </div>
 
 <?php
-  include_once("Footer.php");
-  ?>
+include_once("Footer.php");
+?>

@@ -1,4 +1,4 @@
-<?php  
+<?php
 include_once("Header.php");
 include_once("main.php");
 
@@ -6,62 +6,56 @@ include_once("main.php");
 // code d'insertion dans la tables des gateaux
 try {
 
-    if(isset($_POST['BtnAjout']))
-    // if (
-    //     !empty($_POST["BtnAjout"]) &&
-    //     !empty($_POST["inpNum"]) &&
-    //     !empty($_POST["InpNom"]) &&
-    //     !empty($_POST["inpCategorie"]) &&
-    //     !empty($_POST["inpType"]) &&
-    //     !empty($_POST["inpPrix"]) &&
-    //     !empty($_POST["inpDateEntrer"]) &&
-    //     !empty($_POST["inpDateExpiration"]) &&
-    //     !empty($_FILES["inpPhoto"]["name"])
-    //) 
-    {
-        // Récupération des données
-        $num = htmlspecialchars($_POST['inpNum']);
-        $nom = htmlspecialchars($_POST['InpNom']);
-        $categorie = htmlspecialchars($_POST['inpCategorie']);
-        $type = htmlspecialchars($_POST['inpType']);
-        $prix = htmlspecialchars($_POST['inpPrix']);
-        $dateEntrer = $_POST['inpDateEntrer'];
-        $dateExpiration = $_POST['inpDateExpiration'];
-        $photoName = $_FILES['inpPhoto']['name'];
-        $photoTmp = $_FILES['inpPhoto']['tmp_name'];
-        $destination = "telechargement/".$photoName;
+  if (isset($_POST['BtnAjout'])) {
+    // Récupération des données
+    $num = htmlspecialchars($_POST['inpNum']);
+    $nom = htmlspecialchars($_POST['InpNom']);
+    $categorie = htmlspecialchars($_POST['inpCategorie']);
+    $type = htmlspecialchars($_POST['inpType']);
+    $prix = htmlspecialchars($_POST['inpPrix']);
+    $dateEntrer = $_POST['inpDateEntrer'];
+    $dateExpiration = $_POST['inpDateExpiration'];
+    $photoName = $_FILES['inpPhoto']['name'];
+    $photoTmp = $_FILES['inpPhoto']['tmp_name'];
+    $destination = "telechargement/" . $photoName;
 
-        if (move_uploaded_file($photoTmp, $destination)) {
-            $data = [
-                ':idProduit' => $num,
-                ':NomProd' => $nom,
-                ':CategorieProd' => $categorie,
-                ':TypeProd' => $type,
-                ':PrixProd' => $prix,
-                ':DateEntreProd' => $dateEntrer,
-                ':DateExpiration' => $dateExpiration,
-                ':PhotoProd' => $destination
-            ];
+    if (move_uploaded_file($photoTmp, $destination)) {
+      $data = [
+        ':idProduit' => $num,
+        ':NomProd' => $nom,
+        ':CategorieProd' => $categorie,
+        ':TypeProd' => $type,
+        ':PrixProd' => $prix,
+        ':DateEntreProd' => $dateEntrer,
+        ':DateExpiration' => $dateExpiration,
+        ':PhotoProd' => $destination
+      ];
 
-            $requete = "INSERT into TProduit
+      $requete = "INSERT into TProduit
                 (idProduit, NomProd, CategorieProd, TypeProd, PrixProd, DateEntreProd, DateExpiration, PhotoProd) 
                 values 
                 (:idProduit, :NomProd, :CategorieProd, :TypeProd, :PrixProd, :DateEntreProd, :DateExpiration, :PhotoProd)";
 
-            $pdostmt = $pdo->prepare($requete);
-            $pdostmt->execute($data);
-            // $pdostmt->execute([
-            //     "idProduit"=>$_POST['inpNum'],"NomProd"=>$_POST['InpNom'],"CategorieProd"=>$_POST['inpCategorie'], "TypeProd"=>$_POST['inpType'],"PrixProd"=>$_POST['inpPrix'],
-            //     "DateEntreProd"=>$_POST['inpDateEntrer'],"DateExpiration"=>$_POST['inpDateExpiration'],"PhotoProd"=>$destination
-            // ]);
-            $pdostmt->closeCursor();
-            echo "<div class='alert alert-success text-center'>Produit ajouté avec succès !</div>";
-        } else {
-            echo "<div class='alert alert-danger text-center'>Erreur lors du téléchargement de l'image.</div>";
-        }
+      $pdostmt = $pdo->prepare($requete);
+      $pdostmt->execute($data);
+      // $pdostmt->execute([
+      //     "idProduit"=>$_POST['inpNum'],"NomProd"=>$_POST['InpNom'],"CategorieProd"=>$_POST['inpCategorie'], "TypeProd"=>$_POST['inpType'],"PrixProd"=>$_POST['inpPrix'],
+      //     "DateEntreProd"=>$_POST['inpDateEntrer'],"DateExpiration"=>$_POST['inpDateExpiration'],"PhotoProd"=>$destination
+      // ]);
+      $pdostmt->closeCursor();
+      echo "<div class='alert alert-success text-center'>Produit ajouté avec succès !</div>";
+    } else {
+      echo "<div class='alert alert-danger text-center'>Erreur lors du téléchargement de l'image.</div>";
     }
+  }
 } catch (PDOException $e) {
-    echo "<div class='alert alert-danger'>Erreur : " . $e->getMessage() . "</div>";
+  // Vérifie si c’est une erreur utilisateur (SQLSTATE '45000')
+  if ($e->getCode() === '45000') {
+    echo "Erreur : " . $e->getMessage();  // Affichera : Impossible de commander un produit indisponible
+  } else {
+    // Autres erreurs SQL
+    echo "Erreur SQL : " . $e->getMessage();
+  }
 }
 ?>
 
@@ -114,5 +108,5 @@ try {
 </form>
 
 <?php
-    include_once("Footer.php");
+include_once("Footer.php");
 ?>
