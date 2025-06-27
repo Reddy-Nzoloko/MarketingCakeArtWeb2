@@ -28,6 +28,7 @@ $pdostmt->execute();
                 <th>Nom complet</th>
                 <th>Phone Client</th>
                 <th>Adresse Mail</th>
+                <th>Mot de pass</th>
                 <th>...</th>
             </tr>
         </thead>
@@ -47,6 +48,7 @@ $pdostmt->execute();
                         <td><?php echo $ligne["NomClient"] ?></td>
                         <td><?php echo $ligne["PhoneClient"] ?></td>
                         <td><?php echo $ligne["MailClient"] ?></td>
+                        <td><?php echo $ligne["passWordClient"] ?></td>
                         <td>
                             <a href="LoginModifClient.php?idClient=<?php echo $ligne['idClient']; ?>" class="btn btn-success"> <i class="bi bi-pencil-fill"></i> </a>
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal<?php echo $count ?>"> <i class="bi bi-trash3"></i> </button>

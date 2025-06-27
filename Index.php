@@ -1,5 +1,6 @@
 <!-- Insertion de l'entête -->
 <?php
+session_start();
 $index = true;
 include_once("Header.php");
 include_once("main.php");
@@ -61,7 +62,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
             <div class="display-5 text-muted"> La saveur des vos fêtes avec des bons gateaux </div>
           </h1>
           <p class="lead my-4 text-muted"> la decoration de vos ceremonie avec des gateaux de Cake Art <i class="bi bi-cake2-fill"></i></p>
-          <a href="Commande.php" class=" btn btn-secondary btn-lg">commande</a>
+          <a href="LoginClient.php" class=" btn btn-primary btn-lg">commande</a>
           <!-- <a href="#" class="d-block mt-3" data-bs-toggle="offcanvas" role="button" aria-controls="sidebar">
             cake art </a> -->
         </div>
@@ -217,7 +218,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
                       <button type="submit" class="btn btn-primary" name="envoyerCommentaire1">Envoyer</button>
                     </div>
                   </div>
-                  <a class="btn btn-outline-primary btn-lg mt-3" href="https://wa.me/+243971920530?text=Salut%Nous%Somme%Cake%Art%Que%voulez%vous.?">Commande maintenant</a>
+                  <a class="btn btn-outline-primary btn-lg mt-3" href="LoginClient.php">Commande maintenant</a>
                 </form>
               <?php endwhile; ?>
             </div>
@@ -284,7 +285,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
                       <button type="submit" name="Btn2" id="Btn3" class="btn btn-4 btn-primary">Envoyer</button>
                     </div>
                   </div>
-                  <a class="btn btn-outline-primary btn-lg mt-3" href="https://wa.me/+243971920530?text=Salut%Nous%Somme%Cake%Art%Que%voulez%vous.?">Commande maintenant</a>
+                  <a class="btn btn-outline-primary btn-lg mt-3" href="LoginClient.php">Commande maintenant</a>
                 </form>
               </div>
             </div>
@@ -379,7 +380,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
                   <button type="submit" id="Btn3" name="Btn3" class="btn btn-4 btn-primary">Envoyer</button>
                 </div>
               </div>
-              <a class="btn btn-outline-primary btn-lg mt-3" href="https://wa.me/+243971920530?text=Salut%Nous%Somme%Cake%Art%Que%voulez%vous.?">Commande maintenant</a>
+              <a class="btn btn-outline-primary btn-lg mt-3" href="LoginClient.php">Commande maintenant</a>
               </form>
             </div>
           </div>
@@ -389,7 +390,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
 
   </div>
   </section>
-  Affichages des commentaire
+  <!-- Affichages des commentaire -->
   <div class="container">
     <h2 class="h2 text-primary text-center">Suivi des commentaire </h2>
     <div class="table-responsive">
@@ -666,7 +667,7 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
   ?>
   </div>
 
-  <!-- Formulaire d'escription client client -->
+  <!-- Formulaire d'inscription client client -->
   <?php
   try {
 
@@ -676,19 +677,20 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
       $nom = htmlspecialchars($_POST['Nom']);
       $NumeroPhone = htmlspecialchars($_POST['NumPhone']);
       $AdresseMail = htmlspecialchars($_POST['Email']);
-      //$MotPass = htmlspecialchars($_POST['Pass']);
+      $MotPas = htmlspecialchars($_POST['MotPass']);
+      $MotPassHache = password_hash($MotPas, PASSWORD_DEFAULT);
       $data = [
         //':idClient' => $num,
         ':NomClient' => $nom,
         ':NumPhone' =>  $NumeroPhone,
         ':MailC' => $AdresseMail,
-        //':PassC' => $MotPass,
+        ':PassC' => $MotPassHache,
       ];
 
       $requete = "INSERT into TClient
-                (NomClient, PhoneClient, MailClient) 
+                (NomClient, PhoneClient, MailClient, passWordClient) 
                 values 
-                (:NomClient, :NumPhone, :MailC)";
+                (:NomClient, :NumPhone, :MailC, :PassC)";
 
       $pdostmt = $pdo->prepare($requete);
       $pdostmt->execute($data);
@@ -720,6 +722,10 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
           <label for="registerEmail" class="form-label">Adresse e-mail</label>
           <input type="email" class="form-control" id="registerEmail" name="Email" placeholder="Entrez votre e-mail" required>
         </div>
+        <div class="mb-3">
+          <label for="registerPass" class="form-label">Mot de pass</label>
+          <input type="password" class="form-control" id="registerPass" name="MotPass" placeholder="Entrez votre Password" required>
+        </div>
         <div class="d-grid mb-2">
           <button type="submit" name="BtnModif" class="btn btn-primary ">Créer le compte</button>
         </div>
@@ -727,100 +733,41 @@ while ($ligne = $pdostmt->fetch(PDO::FETCH_ASSOC)):
       </form>
     </div>
   </section>
-  <!-- Formulaire de commande -->
-  <section id="Commande">
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-      <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px;">
-
-        <!-- Formulaire de connexion -->
-        <div id="loginForm">
-          <h3 class="text-center mb-4">Connexion</h3>
-          <form>
-            <div class="mb-3">
-              <label for="loginEmail" class="form-label">Adresse e-mail</label>
-              <input type="email" class="form-control" id="loginEmail" placeholder="Entrez votre e-mail" required>
-            </div>
-            <div class="mb-3">
-              <label for="loginPassword" class="form-label">Mot de passe</label>
-              <input type="password" class="form-control" id="loginPassword" placeholder="Mot de passe" required>
-            </div>
-            <div class="d-grid mb-2">
-              <button type="submit" class="btn btn-primary">Se connecter</button>
-            </div>
-            <div class="d-grid">
-              <a class="btn btn-outline-primary" href="#">Je n'ai pas de compte</a>
-              <!-- <button  type="button" class="btn btn-outline-primary" onclick="toggleForms()">Je n'ai pas de compte</button> -->
-            </div>
-          </form>
-        </div>
-
-        <!-- Formulaire d'inscription -->
-        <div id="registerForm" style="display: none;">
-          <h3 class="text-center mb-4">Créer un compte</h3>
-          <form>
-            <div class="mb-3">
-              <label for="name" class="form-label">Nom complet</label>
-              <input type="text" class="form-control" id="name" placeholder="Votre nom" required>
-            </div>
-            <div class="mb-3">
-              <label for="phone" class="form-label">Téléphone</label>
-              <input type="tel" class="form-control" id="phone" placeholder="Numéro de téléphone" required>
-            </div>
-            <div class="mb-3">
-              <label for="registerEmail" class="form-label">Adresse e-mail</label>
-              <input type="email" class="form-control" id="registerEmail" placeholder="Entrez votre e-mail" required>
-            </div>
-            <div class="mb-3">
-              <label for="registerPassword" class="form-label">Mot de passe</label>
-              <input type="password" class="form-control" id="registerPassword" placeholder="Mot de passe" required>
-            </div>
-            <div class="d-grid mb-2">
-              <button type="submit" class="btn btn-success">Créer le compte</button>
-            </div>
-            <div class="d-grid">
-              <button type="button" class="btn btn-outline-secondary" onclick="toggleForms()">J'ai déjà un compte</button>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
+  
 
   <!-- Section de la localisation  -->
   <section id="localisation" class="py-5">
-  <div class="container">
-    <div class="text-center mb-4">
-      <h5>Nos adresses <i class="bi bi-geo"></i></h5>
-    </div>
-    <div class="row g-4">
-      <!-- Première adresse -->
-      <div class="col-12 col-md-6 text-center">
-        <p class="lead text-muted">
-          <i class="bi bi-geo"></i> Retrouvez-nous principalement à Lukanga campus Wallace
-        </p>
-        <div class="ratio ratio-4x3">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d127674.17150931299!2d29.218450474764985!3d0.027533371525268812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scampus%20universite%20adventiste%20de%20lukanga!5e0!3m2!1sfr!2scd!4v1735760504310!5m2!1sfr!2scd"
-            style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+    <div class="container">
+      <div class="text-center mb-4">
+        <h5>Nos adresses <i class="bi bi-geo"></i></h5>
       </div>
+      <div class="row g-4">
+        <!-- Première adresse -->
+        <div class="col-12 col-md-6 text-center">
+          <p class="lead text-muted">
+            <i class="bi bi-geo"></i> Retrouvez-nous principalement à Lukanga campus Wallace
+          </p>
+          <div class="ratio ratio-4x3">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d127674.17150931299!2d29.218450474764985!3d0.027533371525268812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scampus%20universite%20adventiste%20de%20lukanga!5e0!3m2!1sfr!2scd!4v1735760504310!5m2!1sfr!2scd"
+              style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
 
-      <!-- Deuxième adresse -->
-      <div class="col-12 col-md-6 text-center">
-        <p class="lead text-muted">
-          <i class="bi bi-geo"></i> Retrouvez Cake Art en Beni ville, quartier Ntoni
-        </p>
-        <div class="ratio ratio-4x3">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127669.55484919368!2d29.37915347493337!3d0.488026745312009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1761ab017951ba17%3A0xa45247d1f6b2a53c!2sBeni!5e0!3m2!1sfr!2scd!4v1735760260818!5m2!1sfr!2scd"
-            style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <!-- Deuxième adresse -->
+        <div class="col-12 col-md-6 text-center">
+          <p class="lead text-muted">
+            <i class="bi bi-geo"></i> Retrouvez Cake Art en Beni ville, quartier Ntoni
+          </p>
+          <div class="ratio ratio-4x3">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127669.55484919368!2d29.37915347493337!3d0.488026745312009!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1761ab017951ba17%3A0xa45247d1f6b2a53c!2sBeni!5e0!3m2!1sfr!2scd!4v1735760260818!5m2!1sfr!2scd"
+              style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Insertion du footer -->
   <?php

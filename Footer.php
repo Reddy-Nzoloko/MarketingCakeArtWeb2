@@ -6,7 +6,7 @@
             <div class="row gy-4 align-items-center">
                 <div class="col-12 col-md-4">
                     <a class="navbar-brand text-dark text-uppercase fw-bold" href="#">
-                        <span class="bg-primary  p-2 rounded-3 text-light">REDDY</span> NZ
+                        <span class="bg-primary  p-2 rounded-3 text-light">&copy;REDDY</span> NZ
                     </a>
                 </div>
                 <div class="col-12 col-md-4 text-md-center">
@@ -72,13 +72,13 @@
                 </div>
             </div>
         </div>
-        <span class="text-muted">CopyRight 2025 By Reddy</span>
+        <span class="text-muted">&copy;CopyRight 2025 By Reddy</span>
     </div>
     <!-- Initialisation de la data tables -->
     <!-- data tables -->
     <script>
         $(document).ready(function() {
-            $('#datatable, #datatables, #datatableCom').DataTable({
+            $('#datatable, #datatables, #datatableCom,#datatableCommande').DataTable({
                 responsive: true,
                 language: {
                     lengthMenu: "Afficher _MENU_ enregistrements",
@@ -187,7 +187,6 @@
         }
     </script>
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- Script pour  -->
     </body>
 
     </html>

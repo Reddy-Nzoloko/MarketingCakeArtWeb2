@@ -79,7 +79,7 @@
           <li class="nav-item">
             <!-- <a class="nav-link <?php //echo !empty($Commande)?"active":""
                                     ?>" href="Commande.php" tabindex="-1">Commandes</a> -->
-            <a class="nav-link" href="#Commande">Commande</a>
+            <a class="nav-link" href="LoginClient.php">Commande</a>
           </li>
           <li class="nav-item">
             <!-- <a class="nav-link <?php //echo !empty($Commande)?"active":""

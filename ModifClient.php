@@ -10,17 +10,18 @@ try {
         $nom = htmlspecialchars($_POST['Nom']);
         $NumeroPhone = htmlspecialchars($_POST['NumPhone']);
         $AdresseMail = htmlspecialchars($_POST['Email']);
-        //$MotPass = htmlspecialchars($_POST['Pass']);
+        $MotPas = htmlspecialchars($_POST['MotPass']);
+        $MotPassHache = password_hash($MotPas, PASSWORD_DEFAULT);
         $data = [
             ':idClient' => $num,
             ':NomClient' => $nom,
             ':NumPhone' =>  $NumeroPhone,
             ':MailC' => $AdresseMail,
-            //':PassC' => $MotPass,
+            ':Pass' => $MotPassHache,
         ];
 
         $requete = "UPDATE TClient 
-        SET NomClient=:NomClient,PhoneClient=:NumPhone, MailClient=:MailC 
+        SET NomClient=:NomClient,PhoneClient=:NumPhone, MailClient=:MailC, passWordClient=:Pass
         WHERE idClient=:idClient";
         $pdostmt = $pdo->prepare($requete);
         $pdostmt->execute($data);
@@ -58,6 +59,10 @@ try {
                     <div class="mb-3">
                         <label for="registerEmail" class="form-label">Adresse e-mail</label>
                         <input type="email" class="form-control" id="registerEmail" name="Email" value="<?php echo htmlspecialchars($row["MailClient"]); ?>" placeholder="Entrez votre e-mail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPass" class="form-label">Mot de pass</label>
+                        <input type="password" class="form-control" id="registerPass" name="MotPass" value="<?php echo htmlspecialchars($row["passWordClient"]); ?>" placeholder="Entrez votre Password" required>
                     </div>
                     <div class="d-grid mb-2">
                         <button type="submit" name="BtnModif" class="btn btn-success ">Modifier</button>

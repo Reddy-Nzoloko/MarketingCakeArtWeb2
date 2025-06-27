@@ -1,4 +1,5 @@
 <?php
+session_name("ADMIN_SESSION");
 session_start();
 include_once("main.php");
 
@@ -43,6 +44,7 @@ if (isset($_POST['BtnLogin'])) {
     <div class="card p-4 shadow-lg rounded-4" style="width: 100%; max-width: 400px;">
 
         <div id="loginForm">
+            <a href="Index.php"><i class="bi bi-x text-danger" style="font-size: 2.5rem;"></i></a>
             <h3 class="text-center mb-4">Connexion</h3>
             <?php if (isset($message)): ?>
                 <div class="alert alert-danger text-center"><?php echo $message; ?></div>
